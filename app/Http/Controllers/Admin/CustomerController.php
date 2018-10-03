@@ -2,21 +2,35 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\comment;
+use App\customer;
 use App\Http\Controllers\Controller;
-use DB,Auth;
-use App\product;
-use App\categories;
-use App\subcategory;
-use App\orders;
-use App\order_detail;
-use App\user;
+use App\User;
 
-class CustomerController extends Controller
-{
-    public function customer(){
-    	$cus = user::all();
+class CustomerController extends Controller {
+	public function customer() {
+		$cus = User::all();
 
-    	return view('admin.customer',compact('cus'));
-    }
+		return view('admin.customer.customer', compact('cus'));
+	}
+	public function delCustomer($id) {
+		$cus = user::where('id', $id)->delete();
+
+		return redirect()->back()->with('message', 'Đã xóa tài khoản');
+	}
+	public function getComment() {
+		$cmt = comment::orderby('CreateDate', 'desc')->get();
+		return view('admin.customer.getcomment', compact('cmt'));
+	}
+	public function active($id) {
+		$active_cmt = comment::where('Id', $id)->update(['Status' => 1]);
+
+		return redirect()->route('comment')->with('message', 'Đã duyệt');
+	}
+	public function delete($id) {
+		//$cmt = comment::get();
+		$del_cmt = comment::where('Id', $id)->delete();
+
+		return redirect()->route('comment')->with('message', 'Đã xóa');
+	}
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class subcategory extends Model
 {
     protected $table = 'subcategory';
+    public $timestamps = false;
 
     public function categories(){
     	return $this.belongsTo('App\categories','CategoryId','Id');

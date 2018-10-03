@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class categories extends Model
 {
     protected $table = 'categories';
-
+    public $timestamps = false;
     public function product(){
     	return $this.hasMany('App\product','CategoryId','Id');
     }
